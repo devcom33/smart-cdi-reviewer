@@ -43,6 +43,7 @@ The project aims to help HR professionals, legal consultants, and auditors verif
 - Node.js (optional, if using a frontend)
 
 ## Project Structure
+```
 smart-cdi-reviewer/
 ├── backend/
 │   ├── src/
@@ -51,7 +52,7 @@ smart-cdi-reviewer/
 ├── models/                   # LangChain / LLM scripts
 ├── vector-db/                # Qdrant/FAISS setup
 ├── docs/                     # Documentation and sample contracts
-
+```
 ## Tasks and Roadmap
 ### Phase 1: Legal & Functional Analysis
 Collect Moroccan labor law articles relevant to CDI
