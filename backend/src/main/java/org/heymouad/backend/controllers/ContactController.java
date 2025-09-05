@@ -8,6 +8,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.util.Set;
+
 @RequestMapping("/api/v1/")
 @RestController
 @RequiredArgsConstructor
@@ -15,8 +18,23 @@ public class ContactController {
     private final FilesStorageService filesStorageService;
 
     @PostMapping(value = "/contracts/upload", consumes = "multipart/form-data")
-    public ResponseEntity<String> uploadContract(@RequestParam("file") MultipartFile file)
+    public ResponseEntity<String> uploadContract(@RequestParam("file") MultipartFile file) throws Exception
     {
+        Set<String> allowedTypes = Set.of(
+                "application/pdf",
+                "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+        );
+
+        if (file.getSize() > 5 * 1024 * 1024)
+        {
+            throw new IOException("File Too Large");
+        }
+
+        String fileType = file.getContentType();
+
+        if (fileType == null || (!allowedTypes.contains(fileType)))
+            throw new IllegalArgumentException("Unsupported file type: " + fileType);
+
         String message;
         try {
             filesStorageService.saveFile(file);
