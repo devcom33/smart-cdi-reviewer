@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.apache.tika.exception.TikaException;
 import org.heymouad.backend.dtos.ContractResponse;
 import org.heymouad.backend.services.ClauseExtractionService;
+import org.heymouad.backend.services.ClauseProcessingService;
 import org.heymouad.backend.services.ContractService;
 import org.heymouad.backend.services.FilesStorageService;
 import org.springframework.stereotype.Service;
@@ -12,12 +13,14 @@ import org.xml.sax.SAXException;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.List;
 
 
 @Service
 @RequiredArgsConstructor
 public class ContractServiceImpl implements ContractService {
     private final ClauseExtractionService clauseExtractionService;
+    private final ClauseProcessingService clauseProcessingService;
     private final FilesStorageService filesStorageService;
 
 
@@ -30,9 +33,9 @@ public class ContractServiceImpl implements ContractService {
         // extract text
         String extractedText = clauseExtractionService.extractText(filePath);
 
-        // return raw text
+        // extract clauses
+        List<String> clauses = clauseProcessingService.splitIntoClauses(extractedText);
 
-
-        return new ContractResponse(storedFileName, extractedText);
+        return new ContractResponse(storedFileName, extractedText, clauses);
     }
 }

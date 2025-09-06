@@ -1,4 +1,6 @@
 package org.heymouad.backend.dtos;
 
-public record ContractResponse(String filename, String extractedText) {
+import java.util.List;
+
+public record ContractResponse(String filename, String extractedText, List<String> clauses) {
 }
