@@ -1,15 +1,15 @@
-import { useState } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
+import UploadPage from "./pages/UploadPage";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
-    <>
-      <div>
-        <p>hello world!</p>
-      </div>
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/upload" element={<UploadPage />} />
+        <Route path="/" element={<UploadPage />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
