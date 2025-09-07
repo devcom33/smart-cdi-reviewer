@@ -2,11 +2,19 @@ import React, { useState } from "react";
 
 import NavBar from "../components/NavBar";
 import { Upload } from "lucide-react";
+import { UploadService } from "../services/UploadService";
 
 function UploadPage() {
   const [isProcessing, setIsProcessing] = useState(false);
   const handleUpload = async (file) => {
     if (!file) return;
+    try {
+      const data = await UploadService(file);
+      console.log("Data : ", data);
+    } catch (error) {
+      console.error("Error Uploading Contract:", error);
+      throw error;
+    }
   };
   return (
     <>
