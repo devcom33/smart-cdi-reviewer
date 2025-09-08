@@ -1,0 +1,6 @@
+fastapi
+uvicorn
+langchain
+qdrant-client
+pypdf
+python-docx
