@@ -9,3 +9,8 @@ __pycache__/
 
 # Logs
 *.log
+
+
+# Ignore generated legal-data artifacts
+legal-data/articles_cleaned/sections.json
+legal-data/chroma_db/
