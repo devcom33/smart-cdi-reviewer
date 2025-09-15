@@ -1,2 +1,11 @@
 ./backend/openai.yaml
 .env
+# Python virtual environment
+.venv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Logs
+*.log
