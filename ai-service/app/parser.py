@@ -1,6 +1,5 @@
-# PDF/DOCX parsing module
 """
-Step 4: Extract and clean Moroccan Labor Code PDF into plain text
+Step 1: Extract and clean Moroccan Labor Code PDF into plain text
 """
 
 import os
@@ -20,10 +19,10 @@ def extract_text(pdf_path: str) -> str:
     return text
 
 def clean_text(text: str) -> str:
-    """Remove page numbers, hyphenation, extra spaces."""
+    """Remove page numbers, hyphenation, keep section structure."""
     text = re.sub(r"Page\s+\d+", " ", text, flags=re.IGNORECASE)
-    text = re.sub(r"-\n\s*", "", text)  # fix hyphenation at line breaks
-    text = re.sub(r"\s+", " ", text)    # normalize spaces
+    text = re.sub(r"-\n\s*", "", text)  # fix hyphenation
+    text = re.sub(r"\n{2,}", "\n", text)  # keep newlines but remove excess
     return text.strip()
 
 @router.get("/parse-pdf")
