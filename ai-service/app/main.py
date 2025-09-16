@@ -1,8 +1,7 @@
 # app/main.py
 from fastapi import FastAPI
 from app.routers import placeholder
-from app import parser
-from app import splitter, embeddings  # updated imports
+from app import splitter, embeddings, retriever,parser  # updated imports
 
 app = FastAPI(title="AI Service", version="0.1.0")
 
@@ -17,3 +16,4 @@ app.include_router(parser.router, prefix="/api/v1", tags=["parser"])
 # New routers
 app.include_router(splitter.router, prefix="/api/v1", tags=["splitter"])
 app.include_router(embeddings.router, prefix="/api/v1", tags=["embeddings"])
+app.include_router(retriever.router, prefix="/api/v1", tags=["retriever"])  # ✅ new
