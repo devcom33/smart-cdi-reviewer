@@ -42,5 +42,5 @@ if __name__ == "__main__":
     input_file = "legal-data/contracts_tmp/Contrat_de_travail.txt"
     output_file = os.path.join(CONTRACT_CHUNKS_PATH, "contract_sections.json")
     sections = split_contract_local(input_file, output_file)
-    print(f"✅ Contract split into {len(sections)} sections, saved to {output_file}")
+    print(f" Contract split into {len(sections)} sections, saved to {output_file}")
     print("Sample:", sections[:3])  

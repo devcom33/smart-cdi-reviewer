@@ -8,4 +8,5 @@ langchain
 langchain_community
 sentence-transformers
 chromadb
-
+python-dotenv
+langchain-google-genai

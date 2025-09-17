@@ -41,5 +41,5 @@ def parse_contract_pdf_to_txt(file_path: str):
 if __name__ == "__main__":
     pdf_file = "legal-data/contracts_tmp/Contrat_de_travail.pdf"
     txt_path, parsed_text = parse_contract_pdf_to_txt(pdf_file)
-    print(f"✅ Contract parsed and saved to {txt_path}")
+    print(f" Contract parsed and saved to {txt_path}")
     print(f"Preview:\n{parsed_text[:500]}...")  
