@@ -40,7 +40,7 @@ public class ContractServiceImpl implements ContractService {
 
         // cleaning
         String cleanedText = extractedText.replaceAll("\\s{2,}", "\n");
-
+        cleanedText = cleanedText.replaceAll("\n", " ");
         // extract clauses
         List<String> splitText = new ArrayList<>(clauseProcessingService.splitIntoClauses(cleanedText));
         String header = null;
