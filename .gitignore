@@ -12,5 +12,14 @@ __pycache__/
 
 
 # Ignore generated legal-data artifacts
-legal-data/articles_cleaned/sections.json
-legal-data/chroma_db/
+ai-service/legal-data/articles_cleaned/sections.json
+ai-service/legal-data/chroma_db/
+
+# Ignore temporary / generated contract data
+ai-service/legal-data/contracts_tmp/
+ai-service/legal-data/contracts_chunks/
+ai-service/legal-data/chroma_db/
+ai-service/legal-data/articles_cleaned/
+ai-service/legal-data/retrieval_output/
+ai-service/legal-data/generation_LLM/
+

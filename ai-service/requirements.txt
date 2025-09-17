@@ -1,6 +1,11 @@
 fastapi
 uvicorn
+python-multipart=
+pdfplumber
+PyMuPDF
+pypdf2
 langchain
-qdrant-client
-pypdf
-python-docx
+langchain_community
+sentence-transformers
+chromadb
+
