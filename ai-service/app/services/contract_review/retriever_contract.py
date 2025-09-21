@@ -1,23 +1,21 @@
-"""
-Chroma Retrieval Top1 - Output only matched section content
-
-This version returns for each clause only the section text from the Chroma DB, without extra metadata or scores, to match your desired output format.
-"""
-
-import os
-import json
+# app/services/contract_review/retrieval_contract.py
+from fastapi import APIRouter
+from fastapi.responses import JSONResponse
+import os, json
 from typing import List, Dict, Any
+from langchain_community.embeddings import SentenceTransformerEmbeddings
+from langchain_community.vectorstores import Chroma
 
+router = APIRouter()
+
+# === Same constants as your script ===
 CHROMA_DIR = "legal-data/chroma_db"
 CONTRACT_FILE = "legal-data/contracts_chunks/contract_sections.json"
 OUTPUT_FILE = "legal-data/retrieval_output/retrieval_output.json"
 TOP_K = 1
 EMBEDDING_MODEL = "all-MiniLM-L6-v2"
 
-from langchain_community.embeddings import SentenceTransformerEmbeddings
-from langchain_community.vectorstores import Chroma
-
-
+# === Same helper function as your script ===
 def load_contract_clauses(path: str) -> List[Dict[str, Any]]:
     with open(path, "r", encoding="utf-8") as f:
         data = json.load(f)
@@ -27,8 +25,9 @@ def load_contract_clauses(path: str) -> List[Dict[str, Any]]:
         clauses.append({"index": i, "title": item.get("section_title", ""), "text": text})
     return clauses
 
-
-def main():
+# === FastAPI endpoint wrapping your main logic ===
+@router.post("/retrieve_sections")
+def retrieve_sections():
     os.makedirs(os.path.dirname(OUTPUT_FILE), exist_ok=True)
 
     clauses = load_contract_clauses(CONTRACT_FILE)
@@ -36,7 +35,7 @@ def main():
     embeddings = SentenceTransformerEmbeddings(model_name=EMBEDDING_MODEL)
     vectorstore = Chroma(persist_directory=CHROMA_DIR, embedding_function=embeddings)
 
-    matched_sections_set = set()  # for deduplication by text
+    matched_sections_set = set()
     matched_sections_list = []
 
     for clause in clauses:
@@ -50,7 +49,6 @@ def main():
 
         doc_text = docs[0].page_content if hasattr(docs[0], "page_content") else str(docs[0])
 
-        # Deduplicate by text content
         if doc_text not in matched_sections_set:
             matched_sections_set.add(doc_text)
             matched_sections_list.append({
@@ -58,13 +56,12 @@ def main():
                 "text": doc_text
             })
 
-    # Save final list of unique matched sections
+    # Save results
     with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
         json.dump(matched_sections_list, f, ensure_ascii=False, indent=2)
 
-    print(f"Retrieved {len(matched_sections_list)} unique sections.")
-    print(f"Saved to: {OUTPUT_FILE}")
-
-
-if __name__ == "__main__":
-    main()
+    return JSONResponse({
+        "status": "ok",
+        "retrieved_count": len(matched_sections_list),
+        "output_file": OUTPUT_FILE
+    })
