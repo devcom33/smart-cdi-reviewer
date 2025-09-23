@@ -43,4 +43,4 @@ jobs:
         
     - name: Test with pytest
       run: |
-        pytest ai-service/ --maxfail=1 --disable-warnings -q
+        pytest ai-service/tests/ --maxfail=1 --disable-warnings -q
