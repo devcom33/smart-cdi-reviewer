@@ -6,10 +6,10 @@ name: CI for FastAPI
 on:
   push:
     branches:
-      - main   # run only when you push to your branch
+      - ia-work   # run only when you push to your branch
   pull_request:
     branches:
-      - main  # also run on PRs targeting your branch
+      - ia-work  # also run on PRs targeting your branch
 
 permissions:
   contents: read
