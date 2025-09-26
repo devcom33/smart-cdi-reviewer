@@ -1,4 +1,3 @@
-# app/services/contract_review/generation_contract.py
 from fastapi import APIRouter
 from fastapi.responses import JSONResponse
 import os, json, time, re, logging
@@ -6,13 +5,16 @@ from typing import Any, Dict, List, Optional
 from dotenv import load_dotenv, find_dotenv
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.messages import HumanMessage
+from .retriever_contract import get_latest_contract_file
+
 
 router = APIRouter()
 
-# --- CONFIG ---
-CONTRACT_FILE = "legal-data/contracts_chunks/contract_sections.json"
+CONTRACT_FILE = get_latest_contract_file()
 RETRIEVAL_FILE = "legal-data/retrieval_output/retrieval_output.json"
 OUTPUT_FILE = "legal-data/generation_LLM/llm_issues.json"
+
+
 load_dotenv(find_dotenv())
 MODEL_NAME = os.getenv("GEMINI_MODEL", "gemini-1.5-flash")
 API_KEY = os.getenv("GEMINI_API_KEY") or os.getenv("GEMNAI_API_KEY")
@@ -25,7 +27,6 @@ if not API_KEY:
 # Initialize LLM
 llm = ChatGoogleGenerativeAI(model=MODEL_NAME, google_api_key=API_KEY)
 
-# === Personal info filtering ===
 PERSONAL_PATTERNS = [
     r"\bNom\s*:", r"\bCIN\b", r"\bN[o°]?\s?:\s?[A-Z0-9-]+", r"\bAdresse\s*:",
     r"\bTéléphone\b", r"\bTél\b", r"\bMobile\b", r"\bFax\b", r"\bEmail\b", r"@\w+\.\w+",
@@ -115,14 +116,12 @@ def call_llm(prompt: str) -> Optional[str]:
     print(f"LLM invocation failed after retries: {last_err}")
     return None
 
-# === FastAPI endpoint ===
-@router.post("/generate_issues")
 def generate_issues():
     if not os.path.exists(CONTRACT_FILE):
         return JSONResponse({"status": "error", "message": f"{CONTRACT_FILE} not found"}, status_code=404)
     if not os.path.exists(RETRIEVAL_FILE):
         return JSONResponse({"status": "error", "message": f"{RETRIEVAL_FILE} not found"}, status_code=404)
-
+    
     clauses = json.load(open(CONTRACT_FILE, "r", encoding="utf-8"))
     try:
         retrieval = json.load(open(RETRIEVAL_FILE, "r", encoding="utf-8"))
@@ -172,5 +171,6 @@ def generate_issues():
     return JSONResponse({
         "status": "ok",
         "problematic_count": len(problematic),
+        "output": problematic,
         "output_file": OUTPUT_FILE
     })
