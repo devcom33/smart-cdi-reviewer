@@ -1,21 +1,29 @@
-# app/services/contract_review/retrieval_contract.py
 from fastapi import APIRouter
 from fastapi.responses import JSONResponse
-import os, json
+import os, json, glob
 from typing import List, Dict, Any
 from langchain_community.embeddings import SentenceTransformerEmbeddings
 from langchain_community.vectorstores import Chroma
 
+
 router = APIRouter()
 
-# === Same constants as your script ===
 CHROMA_DIR = "legal-data/chroma_db"
-CONTRACT_FILE = "legal-data/contracts_chunks/contract_sections.json"
+CONTRACT_DIR = "legal-data/contracts_chunks/"
 OUTPUT_FILE = "legal-data/retrieval_output/retrieval_output.json"
 TOP_K = 1
 EMBEDDING_MODEL = "all-MiniLM-L6-v2"
 
-# === Same helper function as your script ===
+
+def get_latest_contract_file() -> str:
+    files = glob.glob(os.path.join(CONTRACT_DIR, "*.json"))
+    
+    if not files:
+        raise FileNotFound("No Contract JSON found in contracts_chunks")
+    
+    return max(files, key=os.path.getmtime)
+
+
 def load_contract_clauses(path: str) -> List[Dict[str, Any]]:
     with open(path, "r", encoding="utf-8") as f:
         data = json.load(f)
@@ -25,9 +33,11 @@ def load_contract_clauses(path: str) -> List[Dict[str, Any]]:
         clauses.append({"index": i, "title": item.get("section_title", ""), "text": text})
     return clauses
 
-# === FastAPI endpoint wrapping your main logic ===
+
 @router.post("/retrieve_sections")
 def retrieve_sections():
+    CONTRACT_FILE = get_latest_contract_file()
+
     os.makedirs(os.path.dirname(OUTPUT_FILE), exist_ok=True)
 
     clauses = load_contract_clauses(CONTRACT_FILE)
@@ -56,7 +66,7 @@ def retrieve_sections():
                 "text": doc_text
             })
 
-    # Save results
+
     with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
         json.dump(matched_sections_list, f, ensure_ascii=False, indent=2)
 
