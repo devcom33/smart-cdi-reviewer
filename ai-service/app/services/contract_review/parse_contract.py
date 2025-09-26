@@ -1,5 +1,3 @@
-# app/services/contract_review/parse_contract.py
-
 import os
 import re
 import pdfplumber
@@ -77,14 +75,3 @@ def extract_txt_from_existing(pdf_filename: str):
     except Exception as e:
         logger.exception("Error extracting text")
         raise HTTPException(status_code=500, detail=str(e))
-
-
-# keep a __main__ convenience if you want to test locally (optional)
-if __name__ == "__main__":
-    pdf_file = os.path.join(CONTRACT_TMP_PATH, "Contrat_de_travail.pdf")
-    if os.path.exists(pdf_file):
-        txt_path, parsed_text = parse_contract_pdf_to_txt(pdf_file)
-        print(f" Contract parsed and saved to {txt_path}")
-        print(f"Preview:\n{parsed_text[:500]}...")
-    else:
-        print("No sample PDF found in", CONTRACT_TMP_PATH)
