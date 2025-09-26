@@ -19,7 +19,7 @@ def get_latest_contract_file() -> str:
     files = glob.glob(os.path.join(CONTRACT_DIR, "*.json"))
     
     if not files:
-        raise FileNotFound("No Contract JSON found in contracts_chunks")
+        raise FileNotFoundError("No Contract JSON found in contracts_chunks")
     
     return max(files, key=os.path.getmtime)
 
