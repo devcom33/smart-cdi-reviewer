@@ -3,9 +3,10 @@ package org.heymouad.backend.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.heymouad.backend.dtos.ContractResponse;
-import org.heymouad.backend.services.ClauseExtractionService;
+import org.heymouad.backend.services.ContractReviewConsumerService;
 import org.heymouad.backend.services.ContractService;
-import org.heymouad.backend.services.FilesStorageService;
+import org.heymouad.backend.services.servicesImpl.ContractReviewProducer;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,11 +19,12 @@ import java.util.Set;
 @RestController
 @RequiredArgsConstructor
 public class ContactController {
-    private final FilesStorageService filesStorageService;
     private final ContractService contractService;
+    private final ContractReviewProducer contractReviewProducer;
+    private final RedisTemplate<String, String> redisTemplate;
 
-    @PostMapping(value = "/contracts/upload", consumes = "multipart/form-data")
-    public ResponseEntity<ContractResponse> uploadContract(@RequestParam("file") MultipartFile file) throws Exception
+    @PostMapping(value = "/contracts/review", consumes = "multipart/form-data")
+    public ResponseEntity<String> reviewContract(@RequestParam("file") MultipartFile file) throws Exception
     {
         Set<String> allowedTypes = Set.of(
                 "application/pdf",
@@ -39,7 +41,21 @@ public class ContactController {
         if (fileType == null || (!allowedTypes.contains(fileType)))
             throw new IllegalArgumentException("Unsupported file type: " + fileType);
 
-        return ResponseEntity.ok(contractService.processContract(file));
+        ContractResponse contractResponse = contractService.processContract(file);
+
+        String id = contractReviewProducer.sendToQueue(contractResponse);
+
+        return ResponseEntity.accepted().body("Contract uploaded. ID = " + id);
+    }
+
+    @GetMapping("/result/{id}")
+    public ResponseEntity<String> getResult(@PathVariable String id) {
+        String result = redisTemplate.opsForValue().get(id);
+        if (result == null) {
+            return ResponseEntity.status(HttpStatus.PROCESSING)
+                    .body("Result not ready yet.");
+        }
+        return ResponseEntity.ok(result);
     }
 
     @GetMapping("/contracts")
