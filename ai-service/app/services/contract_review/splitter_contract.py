@@ -1,5 +1,3 @@
-# app/services/contract_review/splitter_contract.py
-
 import os
 import json
 from fastapi import APIRouter, HTTPException, Query
@@ -10,10 +8,10 @@ CONTRACT_CHUNKS_PATH = "legal-data/contracts_chunks/"
 os.makedirs(CONTRACT_CHUNKS_PATH, exist_ok=True)
 
 
-def split_contract_local(input_file: str, output_file: str):
+def split_contract_local(txt: str, output_file: str):
     """Split contract text into chunks based on paragraphs."""
-    with open(input_file, "r", encoding="utf-8") as f:
-        lines = [line.strip() for line in f.readlines() if line.strip()]
+
+    lines = [line.strip() for line in txt.splitlines() if line.strip()]
 
     sections = []
     for line in lines:
@@ -39,26 +37,3 @@ def split_contract_local(input_file: str, output_file: str):
         json.dump(sections, f, ensure_ascii=False, indent=2)
 
     return sections
-
-
-# --- FastAPI endpoint wrapper ---
-@router.post("/split", summary="Split a contract txt file into JSON sections")
-def split_contract_api(input_file: str = Query(..., description="Path to txt file under legal-data/contracts_tmp")):
-    """Split contract into sections and save JSON output."""
-    if not os.path.exists(input_file):
-        raise HTTPException(status_code=404, detail="Input file not found")
-
-    output_file = os.path.join(CONTRACT_CHUNKS_PATH, "contract_sections.json")
-    try:
-        sections = split_contract_local(input_file, output_file)
-        return {"status": "ok", "output_file": output_file, "sections_count": len(sections)}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-
-
-if __name__ == "__main__":
-    input_file = "legal-data/contracts_tmp/Contrat_de_travail.txt"
-    output_file = os.path.join(CONTRACT_CHUNKS_PATH, "contract_sections.json")
-    sections = split_contract_local(input_file, output_file)
-    print(f" Contract split into {len(sections)} sections, saved to {output_file}")
-    print("Sample:", sections[:3])
