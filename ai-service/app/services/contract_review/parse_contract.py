@@ -40,7 +40,6 @@ def parse_contract_pdf_to_txt(file_path: str):
     return txt_path, text
 
 
-# --- FastAPI endpoints (minimal wrappers) -----------------
 @router.post("/parse", summary="Upload PDF and extract text to txt file")
 async def upload_and_parse_pdf(file: UploadFile = File(...)):
     """
