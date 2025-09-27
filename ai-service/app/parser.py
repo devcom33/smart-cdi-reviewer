@@ -21,8 +21,8 @@ def extract_text(pdf_path: str) -> str:
 def clean_text(text: str) -> str:
     """Remove page numbers, hyphenation, keep section structure."""
     text = re.sub(r"Page\s+\d+", " ", text, flags=re.IGNORECASE)
-    text = re.sub(r"-\n\s*", "", text)  # fix hyphenation
-    text = re.sub(r"\n{2,}", "\n", text)  # keep newlines but remove excess
+    text = re.sub(r"-\n\s*", "", text)
+    text = re.sub(r"\n{2,}", "\n", text)
     return text.strip()
 
 @router.get("/parse-pdf")
@@ -30,6 +30,7 @@ def parse_pdf():
     """Extract & clean PDF, save as plain text."""
     raw_text = extract_text(RAW_PATH)
     cleaned = clean_text(raw_text)
+    print(cleaned)
 
     os.makedirs(os.path.dirname(OUTPUT_PATH), exist_ok=True)
     with open(OUTPUT_PATH, "w", encoding="utf-8") as f:
