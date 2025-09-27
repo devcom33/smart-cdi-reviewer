@@ -37,7 +37,10 @@ def load_contract_clauses(path: str) -> List[Dict[str, Any]]:
 @router.post("/retrieve_sections")
 def retrieve_sections():
     CONTRACT_FILE = get_latest_contract_file()
-
+    
+    if not os.path.exists(CONTRACT_FILE):
+        return JSONResponse({"status": "error", "message": f"{CONTRACT_FILE} not found"}, status_code=404)
+    
     os.makedirs(os.path.dirname(OUTPUT_FILE), exist_ok=True)
 
     clauses = load_contract_clauses(CONTRACT_FILE)

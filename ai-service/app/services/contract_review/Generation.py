@@ -10,7 +10,7 @@ from .retriever_contract import get_latest_contract_file
 
 router = APIRouter()
 
-CONTRACT_FILE = get_latest_contract_file()
+
 RETRIEVAL_FILE = "legal-data/retrieval_output/retrieval_output.json"
 OUTPUT_FILE = "legal-data/generation_LLM/llm_issues.json"
 
@@ -117,6 +117,7 @@ def call_llm(prompt: str) -> Optional[str]:
     return None
 
 def generate_issues():
+    CONTRACT_FILE = get_latest_contract_file()
     if not os.path.exists(CONTRACT_FILE):
         return JSONResponse({"status": "error", "message": f"{CONTRACT_FILE} not found"}, status_code=404)
     if not os.path.exists(RETRIEVAL_FILE):
