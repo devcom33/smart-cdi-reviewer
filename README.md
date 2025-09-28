@@ -43,6 +43,7 @@ The project aims to help HR professionals, legal consultants, and auditors verif
 - Node.js (optional, if using a frontend)
 
 ## Project Structure
+
 ```
 smart-cdi-reviewer/
 ├── backend/
@@ -53,19 +54,24 @@ smart-cdi-reviewer/
 ├── vector-db/                # Qdrant/FAISS setup
 ├── docs/                     # Documentation and sample contracts
 ```
+
 ## Tasks and Roadmap
+
 ### Phase 1: Legal & Functional Analysis
+
 Collect Moroccan labor law articles relevant to CDI
 Define mandatory and optional contract clauses
 Prepare sample contracts (compliant/non-compliant)
 
 ### Phase 2: Core Backend
+
 Spring Boot project setup
 PDF/DOCX clause extraction module
 REST API to upload and process contracts
 JWT-based auth and role management
 
 ### Phase 3: AI Compliance Engine
+
 Setup and test local LLM (via Ollama)
 Create LangChain RAG pipeline
 Index legal articles into vector DB
@@ -73,10 +79,16 @@ Match clauses to relevant laws
 Generate structured compliance report
 
 ### Phase 4: Security & Deployment
+
 Dockerize services
 CI/CD pipeline (GitHub Actions or GitLab CI)
 Deploy to local or cloud environment
 
 ### Frontend UI
+
 Simple upload form and report viewer
 Authentication portal
+
+## Collaborators
+
+This project is a collaboration between [Hamza](https://github.com/Hamza-Jr) and [Mouad](https://github.com/devcom33).
