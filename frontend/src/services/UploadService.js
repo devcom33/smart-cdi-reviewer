@@ -5,7 +5,7 @@ export const UploadService = async (file) => {
     const formData = new FormData();
     formData.append("file", file);
     const response = await apiClient.post(
-      "/api/v1/contracts/upload",
+      "/api/v1/contracts/review",
       formData,
       {
         headers: {
