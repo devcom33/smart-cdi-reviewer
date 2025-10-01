@@ -19,9 +19,10 @@ def process_message(ch, method, properties, body):
     if hasattr(result, "body"):
         result_json = result.body
         r.set(contract_id, result_json.decode("utf-8"))
+        r.publish("contract_results", json.dumps({"id": contract_id, "result": result_json.decode("utf-8")}))
     else:
         r.set(contract_id, json.dumps(result))
-
+        r.publish("contract_results", json.dumps({"id": contract_id, "result": json.dumps(result)}))
     ch.basic_ack(delivery_tag=method.delivery_tag)
 
 def start_worker():
