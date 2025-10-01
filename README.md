@@ -6,6 +6,16 @@
 
 The project aims to help HR professionals, legal consultants, and auditors verify that a CDI contract complies with the Moroccan Labor Code. The system extracts clauses from a submitted contract and generates a structured compliance report referencing relevant legal articles.
 
+## Screenshots
+
+### Contract Upload & Analysis
+
+![Contract Upload](./images/image_cdi_1.png)
+
+### Compliance Report Example
+
+![Compliance Report](<./images/image_2(1).png>)
+
 ## Features
 
 - Upload CDI contracts in PDF or DOCX formats
