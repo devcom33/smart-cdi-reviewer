@@ -9,17 +9,17 @@ services:
       SPRING_PROFILES_ACTIVE: docker
       REDIS_HOST: redis
       RABBITMQ_HOST: rabbitmq
-    depend_on:
+    depends_on:
       - redis
       - rabbitmq
-  
+
   frontend:
     build:
-    context: ./frontend
-    dockerfile: Dockerfile
+      context: ./frontend
+      dockerfile: Dockerfile
     ports:
       - "4173:4173"
-    depend_on:
+    depends_on:
       - backend
 
   redis:
