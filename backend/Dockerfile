@@ -9,7 +9,7 @@ FROM eclipse-temurin:17-jdk-alpine
 
 WORKDIR /app
 
-COPY --from=build target/*.jar smartcdi-image.jar
+COPY --from=build /app/target/*.jar smartcdi-image.jar
 
 EXPOSE 8080
 
