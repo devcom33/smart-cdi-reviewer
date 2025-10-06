@@ -1,5 +1,4 @@
 name: CI Master
-
 on:
   push:
     branches: [dev]
