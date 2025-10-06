@@ -1,21 +1,11 @@
-import os
-import json
-from fastapi import APIRouter, HTTPException, Query
+from typing import List, Dict, Any
 
-router = APIRouter()
-
-CONTRACT_CHUNKS_PATH = "legal-data/contracts_chunks/"
-os.makedirs(CONTRACT_CHUNKS_PATH, exist_ok=True)
-
-
-def split_contract_local(txt: str, output_file: str):
-    """Split contract text into chunks based on paragraphs."""
-
+def split_contract_memory(txt: str) -> List[Dict[str, Any]]:
+    """Split contract text into chunks based on paragraphs. Returns list in memory."""
     lines = [line.strip() for line in txt.splitlines() if line.strip()]
-
     sections = []
+    
     for line in lines:
-        # If line contains ":" or is all caps, treat it as a mini-title
         if ":" in line or line.isupper():
             title = line if len(line.split()) <= 10 else "Clause"
             sections.append({
@@ -23,7 +13,6 @@ def split_contract_local(txt: str, output_file: str):
                 "section_text": line
             })
         else:
-            # Append text to previous section if exists
             if sections:
                 sections[-1]["section_text"] += " " + line
             else:
@@ -31,9 +20,5 @@ def split_contract_local(txt: str, output_file: str):
                     "section_title": "Introduction",
                     "section_text": line
                 })
-
-    # Save to JSON
-    with open(output_file, "w", encoding="utf-8") as f:
-        json.dump(sections, f, ensure_ascii=False, indent=2)
-
+    
     return sections

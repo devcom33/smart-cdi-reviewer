@@ -22,6 +22,22 @@ services:
     depends_on:
       - backend
 
+  ai-service:
+    build:
+      context: ./ai-service
+      dockerfile: Dockerfile
+    container_name: ai-service
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+      - GEMINI_API_KEY=${GEMINI_API_KEY}   
+    depends_on:
+      - redis
+      - rabbitmq
+    restart: always
+
   redis:
     image: redis:7-alpine
     ports:

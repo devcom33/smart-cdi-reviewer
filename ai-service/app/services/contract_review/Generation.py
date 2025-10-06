@@ -1,19 +1,8 @@
-from fastapi import APIRouter
-from fastapi.responses import JSONResponse
-import os, json, time, re, logging
+import os, json, time, re
 from typing import Any, Dict, List, Optional
 from dotenv import load_dotenv, find_dotenv
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.messages import HumanMessage
-from .retriever_contract import get_latest_contract_file
-
-
-router = APIRouter()
-
-
-RETRIEVAL_FILE = "legal-data/retrieval_output/retrieval_output.json"
-OUTPUT_FILE = "legal-data/generation_LLM/llm_issues.json"
-
 
 load_dotenv(find_dotenv())
 MODEL_NAME = os.getenv("GEMINI_MODEL", "gemini-1.5-flash")
@@ -24,7 +13,6 @@ RETRY_ATTEMPTS = int(os.getenv("RETRY_ATTEMPTS", "2"))
 if not API_KEY:
     raise RuntimeError("GEMINI API key not found. Set GEMINI_API_KEY in your .env")
 
-# Initialize LLM
 llm = ChatGoogleGenerativeAI(model=MODEL_NAME, google_api_key=API_KEY)
 
 PERSONAL_PATTERNS = [
@@ -116,24 +104,14 @@ def call_llm(prompt: str) -> Optional[str]:
     print(f"LLM invocation failed after retries: {last_err}")
     return None
 
-def generate_issues():
-    CONTRACT_FILE = get_latest_contract_file()
-    if not os.path.exists(CONTRACT_FILE):
-        return JSONResponse({"status": "error", "message": f"{CONTRACT_FILE} not found"}, status_code=404)
-    if not os.path.exists(RETRIEVAL_FILE):
-        return JSONResponse({"status": "error", "message": f"{RETRIEVAL_FILE} not found"}, status_code=404)
-    
-    clauses = json.load(open(CONTRACT_FILE, "r", encoding="utf-8"))
-    try:
-        retrieval = json.load(open(RETRIEVAL_FILE, "r", encoding="utf-8"))
-    except Exception:
-        retrieval = []
-
+def generate_issues_memory(clauses: List[Dict[str, Any]], retrieval_data: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    """Generate issues for contract clauses. Returns list in memory."""
     problematic: List[Dict[str, Any]] = []
 
     for idx, entry in enumerate(clauses):
         section_title = entry.get("section_title", "")
         section_text = entry.get("section_text", "") or entry.get("section_text", "")
+        
         if section_title != "Clause":
             continue
 
@@ -147,6 +125,7 @@ def generate_issues():
         raw = call_llm(prompt)
         if raw is None:
             continue
+        
         parsed = extract_json_from_text(raw)
         if parsed is None:
             continue
@@ -155,6 +134,7 @@ def generate_issues():
 
         issue = parsed.get("issue") if isinstance(parsed, dict) else None
         suggestion = parsed.get("suggestion") if isinstance(parsed, dict) else None
+        
         if issue:
             problematic.append({
                 "clause_index": idx,
@@ -163,15 +143,7 @@ def generate_issues():
                 "issue": issue,
                 "suggestion": suggestion or ""
             })
+        
         time.sleep(SLEEP_BETWEEN_CALLS)
 
-    os.makedirs(os.path.dirname(OUTPUT_FILE), exist_ok=True)
-    with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
-        json.dump(problematic, f, ensure_ascii=False, indent=2)
-
-    return JSONResponse({
-        "status": "ok",
-        "problematic_count": len(problematic),
-        "output": problematic,
-        "output_file": OUTPUT_FILE
-    })
+    return problematic
