@@ -1,0 +1,17 @@
+name: CI Master
+
+on:
+  push:
+    branches: [dev]
+  pull_request:
+    branches: [dev]
+
+jobs:
+  backend:
+    uses: ./.github/workflows/ci-backend.yml
+
+  frontend:
+    uses: ./.github/workflows/ci-frontend.yml
+
+  ai-service:
+    uses: ./.github/workflows/ci-ai.yml
