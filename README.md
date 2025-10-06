@@ -4,7 +4,7 @@
 
 ## Overview
 
-The project aims to help HR professionals, legal consultants, and auditors verify that a CDI contract complies with the Moroccan Labor Code. The system extracts clauses from a submitted contract and generates a structured compliance report referencing relevant legal articles.
+The project aims to help HR professionals, legal consultants, auditors, and employers verify that employment contracts (CDI, CDD, or other types) comply with the Moroccan Labor Code. The system automatically extracts and analyzes clauses from submitted contracts, detects potential legal issues, and generates a structured compliance report with AI-driven insights and references to relevant labor law articles.
 
 ## Screenshots
 
