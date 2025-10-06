@@ -1,4 +1,4 @@
-FROM --platform=$BUILDPLATFORM node:22-alpine AS builder
+FROM node:22-alpine
 
 WORKDIR /app
 
@@ -7,15 +7,13 @@ RUN npm install
 
 COPY . .
 
+RUN apk add --no-cache dos2unix && \
+  find . -type f \( -name "*.js" -o -name "*.json" -o -name "*.jsx" -o -name "*.ts" -o -name "*.tsx" -o -name "*.sh" -o -name "*.vue" -o -name "*.html" -o -name "*.css" \) -exec dos2unix {} \; 2>/dev/null || true && \
+  apk del dos2unix
+
 RUN npm run build
 
-FROM --platform=$TARGETPLATFORM node:22-alpine
-
-WORKDIR /app
-
 RUN npm install -g serve
-
-COPY --from=builder /app/dist ./dist
 
 EXPOSE 5173
 
