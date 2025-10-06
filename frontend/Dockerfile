@@ -8,7 +8,7 @@ RUN npm install
 COPY . .
 
 RUN apk add --no-cache dos2unix && \
-  find . -type f -exec dos2unix {} \; 2>/dev/null || true && \
+  find . -type f \( -name "*.js" -o -name "*.json" -o -name "*.jsx" -o -name "*.ts" -o -name "*.tsx" -o -name "*.sh" -o -name "*.vue" -o -name "*.html" -o -name "*.css" \) -exec dos2unix {} \; 2>/dev/null || true && \
   apk del dos2unix
 
 RUN npm run build
