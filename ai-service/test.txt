@@ -1,0 +1,32 @@
+This is my first test file.
+
+
+[
+  {
+    "contract_section": {
+      {"title": "Période d’essai",
+      "text": "Employés : Minimum 3 mois, renouvelable une fois",}
+
+       {"title": "Durée du travail",
+      "text": "40 heures par semaine"  }
+    },
+    "retrieved_labor_code": [
+      {
+        "title": "2. CONDITIONS DE FORMATION DU CONTRAT",
+        "text": "Période d'essai ... Durée du travail ..."
+      }
+    ]
+  },
+  {
+    "contract_section": {
+      "title": "Durée du travail",
+      "text": "40 heures par semaine"
+    },
+    "retrieved_labor_code": [
+      {
+        "title": "2. CONDITIONS DE FORMATION DU CONTRAT",
+        "text": "Période d'essai ... Durée du travail ..."
+      }
+    ]
+  }
+]
