@@ -8,7 +8,11 @@ The project aims to help HR professionals, legal consultants, auditors, and empl
 
 ## Screenshots
 
-### Contract Upload & Analysis
+### Contract Upload
+
+![Contract Upload](./images/upload.png)
+
+### Contract Analysis
 
 ![Contract Upload](./images/image_cdi_1.png)
 
