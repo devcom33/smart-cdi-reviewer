@@ -17,6 +17,10 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+      platforms:
+        - linux/amd64
+        - linux/arm64
+    platform: linux/amd64
     ports:
       - "5173:5173"
     depends_on:
