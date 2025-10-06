@@ -9,7 +9,7 @@ The project aims to help HR professionals, legal consultants, auditors, and empl
 ## System Architecture
 
 - The system is composed of three main services communicating via RabbitMQ and Redis:
-1- Frontend – User interface to upload contracts and visualize reports
+- 1-Frontend – User interface to upload contracts and visualize reports
 2- Backend (Spring Boot) – Handles REST APIs, authentication, and message routing
 3- AI Service (FastAPI) – Processes contract text, performs clause analysis, and generates compliance reports using Gemini LLM
 - Supporting services:
