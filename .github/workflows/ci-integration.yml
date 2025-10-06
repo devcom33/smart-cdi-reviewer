@@ -22,7 +22,7 @@ jobs:
 
       - name: Build and run full stack with Docker Compose
         run: |
-          docker-compose -f docker-compose.yml up -d --build
+          docker compose -f docker-compose.yml up -d --build
           # Wait for services to be ready
           echo "Waiting 30s for services..."
           sleep 30
