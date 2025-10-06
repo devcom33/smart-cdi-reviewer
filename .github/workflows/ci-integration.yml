@@ -29,16 +29,16 @@ jobs:
 
       - name: Run backend tests
         run: |
-          docker-compose exec -T backend ./mvnw test
+          docker compose exec -T backend ./mvnw test
 
       - name: Run AI worker tests
         run: |
-          docker-compose exec -T ai-service python -m unittest discover -s tests
+          docker compose exec -T ai-service python -m unittest discover -s tests
 
       - name: Run frontend tests
         run: |
-          docker-compose exec -T frontend npm test
+          docker compose exec -T frontend npm test
 
       - name: Tear down stack
         run: |
-          docker-compose down -v
+          docker compose down -v
