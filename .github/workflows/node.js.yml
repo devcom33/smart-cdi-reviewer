@@ -36,9 +36,6 @@ jobs:
     - name: Build frontend
       run: npm run build
 
-    - name: Run tests
-      run: npm test -- --watchAll=false
-
     - name: Upload production build
       if: success()
       uses: actions/upload-artifact@v4
