@@ -6,26 +6,38 @@
 
 The project aims to help HR professionals, legal consultants, auditors, and employers verify that employment contracts (CDI, CDD, or other types) comply with the Moroccan Labor Code. The system automatically extracts and analyzes clauses from submitted contracts, detects potential legal issues, and generates a structured compliance report with AI-driven insights and references to relevant labor law articles.
 
+# Contract Compliance System
+
 ## System Architecture
 
-- The system is composed of three main services communicating via RabbitMQ and Redis:
-- 1-Frontend – User interface to upload contracts and visualize reports
-2- Backend (Spring Boot) – Handles REST APIs, authentication, and message routing
-3- AI Service (FastAPI) – Processes contract text, performs clause analysis, and generates compliance reports using Gemini LLM
-- Supporting services:
-**Redis** – Caching and temporary data store
-**RabbitMQ** – Message broker connecting backend and AI service
+The system consists of three main services that communicate via RabbitMQ and Redis.
+
+### Main Services
+1. **Frontend**  
+   - User interface for uploading contracts and visualizing reports.
+
+2. **Backend (Spring Boot)**  
+   - Handles REST APIs, authentication, and message routing.
+
+3. **AI Service (FastAPI)**  
+   - Processes contract text, performs clause analysis, and generates compliance reports using the **Gemini LLM**.
+
+### Supporting Services
+- **Redis** – Caching and temporary data storage.  
+- **RabbitMQ** – Message broker connecting the backend and AI service.  
+
+---
 
 ## Workflow
 
-1-The user uploads a contract (PDF/DOCX) through the frontend.
-2-The backend extracts the text and sends it via RabbitMQ to the AI service.
-3-The AI service:
-  Splits and indexes the contract
-  Retrieves relevant legal clauses
-  Calls the Gemini model to analyze compliance
-4-Results are stored temporarily in Redis and sent back to the backend.
-5-The frontend displays the compliance report with insights and suggestions.
+1. The user uploads a contract (PDF or DOCX) through the frontend.  
+2. The backend extracts the text and sends it via RabbitMQ to the AI service.  
+3. The AI service:  
+   - Splits and indexes the contract.  
+   - Retrieves relevant legal clauses.  
+   - Calls the **Gemini** model to analyze compliance.  
+4. Results are temporarily stored in Redis and sent back to the backend.  
+5. The frontend displays the compliance report with insights and suggestions.
 
 
 ## Screenshots
