@@ -2,9 +2,9 @@ name: ci-tests-backend
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "devcom33-patch-2" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "devcom33-patch-2" ]
 
 jobs:
   build:
