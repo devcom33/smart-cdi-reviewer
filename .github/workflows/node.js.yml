@@ -2,9 +2,9 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ "devcom33-patch-3" ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ "devcom33-patch-3" ]
+    branches: [ "main" ]
 
 jobs:
   build:
