@@ -1,10 +1,10 @@
-# Smart CDI Reviewer 🏛️⚖️
+# Smart CDI Reviewer
 
 **smart-cdi-reviewer** is an open-source LegalTech tool that automatically checks the compliance of permanent employment contracts (CDI) with Moroccan Labor Law using natural language processing and large language models.
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
-![Python](https://img.shields.io/badge/Python-35.3%25-blue)
 ![Java](https://img.shields.io/badge/Java-34.8%25-orange)
+![Python](https://img.shields.io/badge/Python-35.3%25-blue)
 ![JavaScript](https://img.shields.io/badge/JavaScript-27.8%25-yellow)
 
 ## Overview
