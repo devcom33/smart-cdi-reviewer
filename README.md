@@ -199,7 +199,7 @@ This project is a collaboration between:
 - **[Hamza](https://github.com/Hamza-Jr)** - AI/ML Development
 - **[Mouad](https://github.com/devcom33)** - Full-stack Development
 
-## 🤝 Contributing
+## Contributing
 
 We welcome contributions! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
 
@@ -211,7 +211,7 @@ We welcome contributions! Please feel free to submit a Pull Request. For major c
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
