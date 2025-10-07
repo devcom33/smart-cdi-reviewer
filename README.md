@@ -56,21 +56,27 @@ The system consists of three main services that communicate via RabbitMQ and Red
 
 ## Features
 
-- Upload CDI contracts in PDF or DOCX formats
-- Automatically extract and analyze contract clauses
-- Compare contract content with Moroccan Labor Code
-- Generate a compliance report with suggested improvements
-- Local LLM integration for private and secure analysis
-- Role-based access and secure authentication (JWT)
+- Upload and analyze CDI, CDD, or other employment contracts
+- AI-powered clause analysis with Google Gemini
+- Automatic detection of non-compliant clauses
+- Structured compliance report with issue explanations and suggestions
+- Scalable microservice architecture (Docker-based)
+- Asynchronous task processing via RabbitMQ
+- Result caching via Redis
+- Secure backend with Spring Boot and role-based auth
 
 ## Technology Stack
 
-- **LangChain + Ollama** (Local LLMs like Mistral, LLaMA3)
-- **Spring Boot** (RESTful backend services)
-- **PDF/DOCX Parsing** (Apache POI, PDFBox)
-- **Vector Database** (FAISS or Qdrant)
-- **Authentication**: JWT, Spring Security
-- **Database**: PostgreSQL or MongoDB
+- Frontend: Built with React, Vite, TypeScript, and Tailwind CSS, providing a modern, fast, and responsive interface for uploading and reviewing employment contracts.
+- Backend (API Gateway): Developed using Spring Boot and Java 17, exposing REST APIs that handle authentication, user management, and communication with the AI service.
+- AI Service: Implemented with FastAPI and Python 3.10+, using LangChain and Google Gemini API to analyze contract clauses and assess compliance with Moroccan labor laws.
+- Message Broker: RabbitMQ is used to manage asynchronous communication between the main backend and the AI service through background workers.
+- Cache / Temporary Store: Redis stores intermediate AI results and enables real-time updates during contract processing.
+- Containerization: Entire system runs in Docker and Docker Compose, making it easy to deploy and scale in local or cloud environments.
+- Data & Storage: Contract data, extracted clauses, and generated reports are stored as JSON files in a structured directory under legal-data/.
+- Environment Management: Configuration and API keys are securely managed using python-dotenv and Spring Boot’s configuration system.
+- Testing: Pytest (for AI microservice) and JUnit (for backend) ensure robustness and maintainability through automated tests.
+- Version Control & CI/CD: Managed via Git and GitHub Actions (planned) to automate builds, testing, and deployment pipelines.
 
 
 
@@ -88,44 +94,45 @@ The system consists of three main services that communicate via RabbitMQ and Red
 
 ```
 smart-cdi-reviewer/
-├── backend/
-│   ├── src/
-│   ├── resources/
-├── legal-data/               # Moroccan labor law articles and metadata
-├── models/                   # LangChain / LLM scripts
-├── vector-db/                # Qdrant/FAISS setup
-├── docs/                     # Documentation and sample contracts
+│
+├── backend/                 # Spring Boot backend (REST API, authentication, business logic)
+├── frontend/                # React + Vite frontend (UI for uploading and viewing reports)
+├── ai-service/              # Python AI microservice (LLM contract analysis)
+├── legal-data/              # Labor law articles and references for compliance checks
+├── docker-compose.yml       # Multi-service setup (backend, frontend, AI, Redis, RabbitMQ)
+├── README.md
+├── LICENSE
+└── .gitignore
 ```
 
 ## Tasks and Roadmap
 
-### Phase 1: Legal & Functional Analysis
+Roadmap
+###  Phase 1 — Core Infrastructure
 
-Collect Moroccan labor law articles relevant to CDI
-Define mandatory and optional contract clauses
-Prepare sample contracts (compliant/non-compliant)
+Setup microservices (frontend, backend, AI, Redis, RabbitMQ)
 
-### Phase 2: Core Backend
+Implement asynchronous task flow (RabbitMQ → AI → Redis → Backend)
 
-Spring Boot project setup
-PDF/DOCX clause extraction module
-REST API to upload and process contracts
-JWT-based auth and role management
+### Phase 2 — AI Contract Analysis
 
-### Phase 3: AI Compliance Engine
+Develop LangChain + Gemini workflow for contract compliance
 
-Setup and test local LLM (via Ollama)
-Create LangChain RAG pipeline
-Index legal articles into vector DB
-Match clauses to relevant laws
-Generate structured compliance report
+Build full pipeline (splitter → retriever → generation)
 
-### Phase 4: Security & Deployment
+### Phase 3 — Frontend Enhancements
 
-Dockerize services
-CI/CD pipeline (GitHub Actions or GitLab CI)
-Deploy to local or cloud environment
+Add interactive compliance report visualization
 
+Support multi-language UI (FR / EN)
+
+### Phase 4 — Security & Deployment
+
+Implement JWT-based authentication
+
+CI/CD setup (GitHub Actions)
+
+Deploy to cloud (Render, GCP, or AWS)
 ### Frontend UI
 
 Simple upload form and report viewer
