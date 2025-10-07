@@ -17,6 +17,9 @@ jobs:
     strategy:
       matrix:
         node-version: [18.x, 20.x, 22.x]
+    defaults:
+      run:
+        working-directory: ./frontend
 
     steps:
     - uses: actions/checkout@v4
@@ -25,6 +28,15 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - run: npm ci
-    - run: npm run build --if-present
-    - run: npm test
+        cache-dependency-path: ./frontend/package-lock.json
+    - name: Build project
+      run: npm run build --if-present
+    - name: Run tests
+      run: npm test -- --watchAll=false
+
+    - name: Upload production build
+      if: success()
+      uses: actions/upload-artifact@v4
+      with:
+        name: frontend-build-${{ matrix.node-version }}
+        path: frontend/dist
