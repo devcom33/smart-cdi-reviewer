@@ -21,15 +21,19 @@ The system consists of three main services that communicate via RabbitMQ and Red
 
 1. **Frontend (React + Vite)**
    - Modern, responsive user interface for uploading contracts and visualizing reports
-   - Built with TypeScript and Tailwind CSS
+   - Built with JavaScript and Tailwind CSS
 
 2. **Backend (Spring Boot)**
-   - Handles REST APIs, authentication, and message routing
+   - Handles REST APIs and message routing
    - Developed with Java 17 and role-based security
 
 3. **AI Service (FastAPI)**
    - Processes contract text, performs clause analysis, and generates compliance reports
    - Uses **Gemini LLM**, LangChain, and Python 3.10+
+
+### Supporting Services
+- **Redis** – Caching and temporary data storage
+- **RabbitMQ** – Message broker connecting the backend and AI service
 
 ### Supporting Services
 
