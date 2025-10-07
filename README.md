@@ -127,8 +127,6 @@ smart-cdi-reviewer/
    ```env
    GEMINI_API_KEY=your_api_key_here
    GEMINI_MODEL=gemini-1.5-flash
-   SLEEP_BETWEEN_CALLS=0.25
-   RETRY_ATTEMPTS=2
    ```
 
 3. **Start All Services**
