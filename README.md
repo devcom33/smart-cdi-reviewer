@@ -32,13 +32,11 @@ The system consists of three main services that communicate via RabbitMQ and Red
    - Uses **Gemini LLM**, LangChain, and Python 3.10+
 
 ### Supporting Services
-- **Redis** – Caching and temporary data storage
-- **RabbitMQ** – Message broker connecting the backend and AI service
-
-### Supporting Services
 
 - **Redis** – Caching and temporary data storage
 - **RabbitMQ** – Message broker connecting the backend and AI service
+
+
 
 ## Workflow
 
