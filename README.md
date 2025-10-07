@@ -40,7 +40,7 @@ The system consists of three main services that communicate via RabbitMQ and Red
 - **Redis** – Caching and temporary data storage
 - **RabbitMQ** – Message broker connecting the backend and AI service
 
-## 🔄 Workflow
+## Workflow
 
 1. User uploads a contract (PDF or DOCX) through the frontend
 2. Backend extracts the text and sends it via RabbitMQ to the AI service
@@ -51,7 +51,7 @@ The system consists of three main services that communicate via RabbitMQ and Red
 4. Results are temporarily stored in Redis and sent back to the backend
 5. Frontend displays the compliance report with insights and suggestions
 
-## 📸 Screenshots
+## Screenshots
 
 ### Contract Upload
 ![Contract Upload](./images/upload.png)
@@ -62,7 +62,7 @@ The system consists of three main services that communicate via RabbitMQ and Red
 ### Compliance Report
 ![Compliance Report](./images/image_2(1).png)
 
-## ✨ Features
+## Features
 
 - Upload and analyze CDI, CDD, or other employment contracts
 - AI-powered clause analysis with Google Gemini
@@ -72,7 +72,7 @@ The system consists of three main services that communicate via RabbitMQ and Red
 - Asynchronous task processing via RabbitMQ
 - Result caching via Redis
 
-## 🛠️ Technology Stack
+## Technology Stack
 
 | Component | Technology | Purpose |
 |-----------|------------|---------|
@@ -85,7 +85,7 @@ The system consists of three main services that communicate via RabbitMQ and Red
 | **Testing** | Pytest (Python), JUnit (Java) | Automated testing for robustness |
 | **Data Storage** | JSON files | Contract data and generated reports |
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 smart-cdi-reviewer/
@@ -101,7 +101,7 @@ smart-cdi-reviewer/
 └── .gitignore
 ```
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
