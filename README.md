@@ -133,7 +133,7 @@ smart-cdi-reviewer/
    ```
 
 4. **Access the Application**
-   - **Frontend**: http://localhost:4173/
+   - **Frontend**: http://localhost:5173/
    - **Backend API**: http://localhost:8080/
    - **RabbitMQ Management**: http://localhost:15672/ (guest/guest)
 
