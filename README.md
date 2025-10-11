@@ -178,14 +178,9 @@ npm run dev
 - [x] Contract compliance pipeline
 - [x] Legal clause extraction
 
-### Phase 3 — Frontend Enhancements
-- [ ] Interactive compliance report visualization
-- [ ] Multi-language UI (FR / EN)
-- [ ] Advanced filtering and search
-
-### Phase 4 — Security & Deployment
+### Phase 3 — Security & Deployment
 - [ ] JWT-based authentication
-- [ ] CI/CD setup (GitHub Actions)
+- [x ] CI/CD setup (GitHub Actions)
 - [ ] Cloud deployment (GCP, AWS, or Azure)
 
 ## Contributors
